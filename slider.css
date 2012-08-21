@@ -1,0 +1,134 @@
+/* http: //meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License:  none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin:  0;
+	padding:  0;
+	border:  0;
+	font-size:  100%;
+	font:  inherit;
+	vertical-align:  baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display:  block;
+}
+body {
+	line-height:  1;
+}
+ol, ul {
+	list-style:  none;
+}
+blockquote, q {
+	quotes:  none;
+}
+blockquote: before, blockquote: after,
+q: before, q: after {
+	content:  '';
+	content:  none;
+}
+table {
+	border-collapse:  collapse;
+	border-spacing:  0;
+}
+
+
+
+
+html { background: #dee; }
+
+
+
+
+.slider {
+}
+
+.slides {
+	position: relative;
+	width: 530px;
+	height: 310px;
+	overflow: hidden;
+	background:#040;
+	border: 2px solid #a00;
+}
+.slideslist {
+	position: absolute;
+	width: 1590px;
+	top: 0;
+	left: 0;
+	background: #fee;
+}
+
+.slide {
+	position: relative;
+	width: 530px;
+	float: left;
+	overflow: hidden;
+}
+.slide a {
+	display: block;
+}
+.slide h3 {
+	position: absolute;
+	width: 100%;
+	height: 40px;
+	padding: 0 20px;
+	line-height: 40px;
+	bottom: 10px;
+	left: 0;
+	background:rgba(255,255,255,.7);
+}
+.slide img {
+}
+
+
+.slider-nav {
+	margin-top: 20px;
+}
+.slider-nav-list {
+}
+.slider-nav-list li{
+	float: left;
+	margin-left: 20px;
+}
+.slider-nav-item {
+}
+.slider-nav-item.active {
+	color: #fff;
+	background-color: #00f;
+}
+
+.slider-nav-item-1 {
+}
+.slider-nav-item-2 {
+}
+.slider-nav-item-3 {
+}
+
+.slider-scroll {
+}
+.slider-scroll a {
+}
+.slider-prev {
+}
+.slider-prev a {
+}
+.slider-next {
+}
+.slider-next a {
+}
