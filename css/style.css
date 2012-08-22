@@ -68,7 +68,7 @@ html { background: #dee; }
 }
 .slideslist {
 	position: absolute;
-	width: 1590px;
+	width: 2650px; /* 5*530 */
 	top: 0;
 	left: 0;
 	background: #fee;
@@ -98,12 +98,13 @@ html { background: #dee; }
 
 
 .slider-nav {
-	margin-top: 20px;
 }
 .slider-nav-list {
+	clear: left;
 }
 .slider-nav-list li{
 	float: left;
+	margin-top: 20px;
 	margin-left: 20px;
 }
 .slider-nav-item {

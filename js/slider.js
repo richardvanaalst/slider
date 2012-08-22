@@ -1,14 +1,16 @@
 $(document).ready(function() {
 
-	var slideslistWidth = $('.slideslist').outerWidth(),
+	var slider = [
+		slideslistWidth = $('.slideslist').outerWidth(),
 		slideWidth = $('.slide').outerWidth(),
-		totalSlides = 3,
+		totalSlides = 5, /* TODO: count slideslist's children */
 		currentSlide = 0,
-		loop = true,
+		loop = (window.loopSlider != undefined)? window.loopSlider : true,
 		scrollIncrement = 1,
 		scrollSpeed = 800,
 		showDuration = 4000,
-		runSlider;
+		runSlider = false
+	];
 
 
 	(function sliderInit() {
@@ -16,15 +18,14 @@ $(document).ready(function() {
 		// Set the necessary basic styles, if not present
 		if ($('#slides').css('position') != 'relative') {
 			$('#slides').css({'position':'relative'});
-			//width: 100px; height: 100px; overflow: hidden;
+			// ADD: width: 100px; height: 100px; overflow: hidden;
 		}
 		if ($('#slideslist').css('position') != 'absolute') {
 			$('#slideslist').css({'position':'absolute'});
-			//width: 300px; top: 0; left: 0;
+			// ADD: width: 300px; top: 0; left: 0;
 		}
 
-		sliderRun();
-		// scrollSlider(1, false);
+		scrollSlider(1, false);
 	})();
 
 	function sliderRun() {
@@ -32,14 +33,16 @@ $(document).ready(function() {
 	};
 
 	function sliderRunStart() {
-		if (runSlider !== null) { sliderRunStop(); }
+		sliderRunStop();
 		runSlider = setInterval(sliderRun, showDuration);
 		console.log('interval set: '+runSlider);
 	}
 	function sliderRunStop() {
-		clearInterval(runSlider);
-		console.log('interval cleared: '+runSlider);
-		runSlider = null;
+		if (typeof runSlider == "number") {
+			clearInterval(runSlider);
+			console.log('interval cleared: '+runSlider);
+			runSlider = false;
+		}
 	}
 
 
@@ -82,9 +85,6 @@ $(document).ready(function() {
 					break;
 			}
 		}
-		/*else {
-			newSlide -= 1;
-		}*/
 
 
 		// Set new (left) position
@@ -126,12 +126,12 @@ $(document).ready(function() {
 			});
 		}
 
-				// Clear interval when not looping and on last slide
-				if (loop === false && currentSlide == totalSlides) {
-					sliderRunStop();
-				}
-
+		// Clear interval when not looping and on last slide
+		if (loop === false && currentSlide == totalSlides) {
+			sliderRunStop();
+		}
 	};
+
 
 	$('#slider-start').click(function() {
 		sliderRunStart();
@@ -142,6 +142,7 @@ $(document).ready(function() {
 		return false;
 	});
 
+
 	$('#slider-prev').click(function() {
 		scrollSlider('prev', true);
 		return false;
@@ -151,11 +152,11 @@ $(document).ready(function() {
 		return false;
 	});
 
+
 	$('.slider-nav-item').click(function() {
 		scrollSlider($(this).attr('id'), true);
 		return false;
 	});
-
 
 
 	$('#slides').hover(
@@ -169,8 +170,9 @@ $(document).ready(function() {
 		}
 	);
 
+
 	/*
-	// NEEDS DEBUGGING!
+	// TODO: doesn't work this way
 	$(window).blur(function() {
 		console.log('Window blur');
 		sliderRunStop();
