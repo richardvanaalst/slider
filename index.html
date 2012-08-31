@@ -3,57 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <title>Caroussel</title>
+<link rel="stylesheet" href="//workspaces.i-aspect.local/richardvanaalst/_work/normalize.css" media="all">
 <link rel="stylesheet" href="css/style.css" media="all">
 <script src="//code.jquery.com/jquery-1.7.2.min.js"></script>
 <script src="js/slider.js"></script>
-<script>loopSlider=true</script>
+<script>
+$(document).ready(function() {
+	loop = "rewind";
+	loop = false;
+	loop = true;
+	debug = true;
+});
+</script>
 </head>
 
 <body>
 
 <div id="slider" class="slider">
 
-	<div id="slides" class="slides">
-		<ul id="slideslist" class="slideslist">
-			<li class="slide">
+	<div id="slider-content" class="slider-content">
+		<ul id="slides" class="slides">
+			<li id="slide1" class="slide slide1">
 				<a href="#" title="">
-					<h3>Slide 1</h3>
-					<img src="img/slider.jpg" alt="">
+					Slide 1
 				</a>
 			</li>
-
-			<li class="slide">
+			<li id="slide2" class="slide slide2">
 				<a href="#" title="">
-					<h3>Slide 2</h3>
-					<img src="img/slider.jpg" alt="">
+					Slide 2
 				</a>
 			</li>
-
-			<li class="slide">
+			<li id="slide3" class="slide slide3">
 				<a href="#" title="">
-					<h3>Slide 3</h3>
-					<img src="img/slider.jpg" alt="">
+					Slide 3
 				</a>
 			</li>
-
-			<li class="slide">
+			<li id="slide4" class="slide slide4">
 				<a href="#" title="">
-					<h3>Slide 4</h3>
-					<img src="img/slider.jpg" alt="">
+					Slide 4
 				</a>
 			</li>
-
-			<li class="slide">
+			<li id="slide5" class="slide slide5">
 				<a href="#" title="">
-					<h3>Slide 5</h3>
-					<img src="img/slider.jpg" alt="">
+					Slide 5
 				</a>
 			</li>
 		</ul>
 	</div>
 
+
 	<div id="slider-nav" class="slider-nav">
-		<ul id="slider-nav-items" class="slider-nav-list">
+
+		<ul id="slider-nav-items" class="slider-nav-items">
 			<li>
 				<a id="slider-nav-item-1" class="slider-nav-item slider-nav-item-1" href="#slide1" title="">Slide 1</a>
 			</li>
@@ -71,24 +72,21 @@
 			</li>
 		</ul>
 
-		<ul id="slider-nav-functions" class="slider-nav-list">
+		<ul id="slider-nav-functions" class="slider-nav-functions">
 			<li>
-				<a id="slider-prev" class="slider-scroll slider-prev" href="#prev" title="">Previous</a>
+				<a id="slider-prev" class="slider-prev" href="#prev" title="">Previous</a>
 			</li>
 			<li>
-				<a id="slider-start" class="slider-scroll slider-start" href="#start" title="">Start</a>
+				<a id="slider-playpause" class="slider-playpause" href="#playpause" title="">Play/Pause</a>
 			</li>
 			<li>
-				<a id="slider-stop" class="slider-scroll slider-stop" href="#stop" title="">Stop</a>
-			</li>
-			<li>
-				<a id="slider-next" class="slider-scroll slider-next" href="#next" title="">Next</a>
+				<a id="slider-next" class="slider-next" href="#next" title="">Next</a>
 			</li>
 		</ul>
+
 	</div>
 
 </div>
-
 
 </body>
 </html>
