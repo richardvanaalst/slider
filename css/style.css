@@ -1,3 +1,19 @@
+/** ** ** ** ** ** ** ** ** **
+ ** ** ** ** ** ** ** **
+ ** ** ** ** ** **
+ ** ** ** **
+ ** **
+ *	Slider styling
+*/
+
+
+
+
+
+
+/** ** ** ** ** ** ** ** ** **
+ *	Basic reset
+*/
 html { background: #ddd; }
 ul {
 	margin: 0;
@@ -7,16 +23,23 @@ ul {
 
 
 
-.slider {
-}
 
 
-/**
- *	Slider items
+
+/** ** ** ** ** ** ** ** ** **
+ *	Slider
  *
  *	Mark-up:
  *	necessary layout
  *		extra visual styling
+*/
+.slider {
+}
+
+
+
+/**
+ *	Slider content slides
 */
 .slider-content {
 	position: relative;
@@ -28,18 +51,15 @@ ul {
 }
 .slides {
 	position: absolute;
-	width: 100%;
+		width: 100%;
 		top: 0;
 		left: 530px;
 		background: #fee;
 }
 .slide {
-		position: relative;
+	float: left;
 		width: 530px;
 		height: 310px;
-		float: left;
-		overflow: hidden;
-		background: url("../img/slider.jpg");
 }
 .slide > a {
 		display: block;
@@ -57,9 +77,9 @@ ul {
 .slider-nav > ul {
 }
 .slider-nav > ul > li {
-	float: left;
-	margin-top: 20px;
-	margin-left: 20px;
+		float: left;
+		margin-top: 20px;
+		margin-left: 20px;
 }
 
 .slider-nav-items {
@@ -67,21 +87,21 @@ ul {
 .slider-nav-item {
 }
 .slider-nav-item.active {
-	color: #fff;
-	background-color: #00f;
+		color: #fff;
+		background-color: #00f;
 }
 
 .slider-nav-functions {
-	clear: left;
+		clear: left;
 }
 
 .slider-playpause {
 }
 .slider-playpause.play {
+		color: #fff;
+		background-color: #00f;
 }
 .slider-playpause.pause {
-	color: #fff;
-	background-color: #00f;
 }
 
 .slider-prev {
