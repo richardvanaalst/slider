@@ -6,13 +6,13 @@ $(document).ready(function() {
 		currentSlide = 0,
 		scrollIncrement = 1,
 		scrollSpeed = 600,
-		showDuration = 1500,
-		sliderRunInterval = false,
+		showDuration = 2000,
+		sliderRunTimer = false,
 		isPlaying = false,
 		loop = (window.loop != undefined)? window.loop : true,
+		/* loop: "continuous", "revert", "rewind", true, false */
 		debug = (window.debug != undefined)? window.debug : false
 	];
-		console.log("Slider: "+Slider);
 
 	(function sliderInit() {
 
@@ -32,13 +32,9 @@ $(document).ready(function() {
 			$("#slider-playpause").click(function() {
 				if (isPlaying === true) {
 					sliderPause();
-					$(this).removeClass("play").addClass("pause");
-					isPlaying = false;
 				}
 				else {
 					sliderPlay();
-					$(this).removeClass("pause").addClass("play");
-					isPlaying = true;
 				}
 				return false;
 			});
@@ -92,7 +88,7 @@ $(document).ready(function() {
 		*/
 
 		// Activate slider and go to first slide
-		// scrollSlider(1, false);
+		scrollSlider(1, false);
 		$("#slider-playpause").click();
 	})();
 
@@ -102,27 +98,44 @@ $(document).ready(function() {
 	};
 
 	function sliderRunReset() {
-		clearInterval(sliderRunInterval);
-			if (debug) console.log("interval cleared: "+sliderRunInterval);
-		sliderRunInterval = false;
+		clearTimeout(sliderRunTimer);
+			if (debug) console.log("timeout cleared: "+sliderRunTimer);
+		sliderRunTimer = false;
 	};
 
 
 	function sliderPlay() {
-		if (typeof sliderRunInterval == "number") {
+			if (debug) console.log("sliderPlay");
+		if (typeof sliderRunTimer == "number") {
 			sliderRunReset();
 		}
-		sliderRunInterval = setInterval(sliderRun, showDuration);
-			if (debug) console.log("interval set: "+sliderRunInterval);
+		sliderRunTimer = setTimeout(sliderRun, showDuration);
+			if (debug) console.log("timeout set: "+sliderRunTimer);
+		$("#slider-playpause").removeClass("pause").addClass("play");
+		isPlaying = true;
 	};
 
 	function sliderPause() {
+			if (debug) console.log("sliderPause");
 		sliderRunReset();
+		$("#slider-playpause").removeClass("play").addClass("pause");
+		isPlaying = false;
+	};
+
+	// Clear interval when not looping and on last slide
+	function sliderCycle() {
+		if (isPlaying === false || (loop === false && currentSlide == totalSlides)) {
+			sliderPause();
+		}
+		else {
+			sliderPlay();
+		}
 	};
 
 
 	function scrollSlider(slide, click) {
 
+		// sliderRunReset();
 		var newSlide = slide,
 			posNew;
 
@@ -133,17 +146,18 @@ $(document).ready(function() {
 					if (loop === false) {
 						// Stop at first slide
 						newSlide = Math.max(1, currentSlide - scrollIncrement);
+						sliderRunReset();
 							if (debug) if (currentSlide == 1) console.log("Stop at first slide");
 					}
 					else {
 						/*if (loop == "rewind" ) {
 							// Loop back to last slide
-							newSlide = '';
+							newSlide = (currentSlide - scrollIncrement < 1)? totalSlides : currentSlide - scrollIncrement;
 								if (debug) if (currentSlide == 1) console.log("Loop back to last slide");
 						}
 						else {
 							// Add last slide before first
-							newSlide = (currentSlide - scrollIncrement < 1)? totalSlides : currentSlide - scrollIncrement;
+							newSlide = '';
 								if (debug) if (currentSlide == 1) console.log("Add last slide before first");
 						}*/
 						/* TEMP */
@@ -155,24 +169,23 @@ $(document).ready(function() {
 				case "next":
 					if (loop === false) {
 						// Stop at last slide
-							if (debug) console.log("Will stop at last slide");
-						newSlide = Math.min(totalSlides, currentSlide + scrollIncrement);
-							if (debug) if (currentSlide == totalSlides) console.log("Stop at last slide");
+						newSlide = Math.min(totalSlides, (currentSlide + scrollIncrement));
+							if (debug) if (newSlide == totalSlides) console.log("Stop at last slide");
 					}
 					else {
 						/*if (loop == "rewind" ) {
 							// Add first slide after last
-							newSlide = '';
-								if (debug) if (currentSlide == totalSlides) console.log("Add first slide after last");
+							newSlide = (currentSlide + scrollIncrement > totalSlides)? 1 : currentSlide + scrollIncrement;
+								if (debug) if (newSlide == totalSlides) console.log("Add first slide after last");
 						}
 						else {
 						// Loop back to first slide
-							newSlide = (currentSlide + scrollIncrement > totalSlides)? 1 : currentSlide + scrollIncrement;
-								if (debug) if (currentSlide == totalSlides) console.log("Loop back to first slide");
+							newSlide = '';
+								if (debug) if (newSlide == totalSlides) console.log("Loop back to first slide");
 						}*/
 						/* TEMP */
 						newSlide = (currentSlide + scrollIncrement > totalSlides)? 1 : currentSlide + scrollIncrement;
-							if (debug) if (currentSlide == totalSlides) console.log("Loop back to first slide");
+							if (debug) if (newSlide == totalSlides) console.log("Loop back to first slide");
 					}
 					break;
 
@@ -185,7 +198,7 @@ $(document).ready(function() {
 
 		// Set new (left) position
 		posNew = -(newSlide-1) * slideWidth;
-			if (debug) console.log("currentSlide: "+currentSlide+ ", newSlide: "+newSlide+ ", posNew: "+posNew);
+			if (debug) console.log("currentSlide (old): "+currentSlide+ ", newSlide: "+newSlide+ ", posNew: "+posNew);
 
 
 		// Bounce effect at first/last slide when not looping
@@ -203,35 +216,23 @@ $(document).ready(function() {
 			posNew -= bounceWidth;
 			$("#slides").animate({"left": posNew}, 50, function() {
 				posNew += bounceWidth;
-				$("#slides").animate({"left": posNew}, 200);
+				$("#slides").animate({"left": posNew}, 200, function() {
+					sliderCycle();
+				});
 			});
 		}
+		// Animate to new slide
 		else {
 			// Set css classes of navigation items
 			$(".slider-nav-item").removeClass("active");
 			$("#slider-nav-item-"+(newSlide)).addClass("active");
 
-			// Animate and update current slide, reset the interval
-			currentSlide = newSlide;
-				if (debug) console.log("currentSlide: "+currentSlide+ ", newSlide: "+newSlide+ ", posNew: "+posNew);
+			// Animate and update current slide
+			currentSlide = parseInt(newSlide);
+				if (debug) console.log("currentSlide (new): "+currentSlide);
 			$("#slides").stop(true).animate({"left": posNew}, scrollSpeed, function() {
-				// Clear interval when not looping and on last slide
-				/*if (loop === false && currentSlide == totalSlides) {
-					sliderPause();
-				}
-				else {
-					sliderPlay();
-				}*/
+				sliderCycle();
 			});
-		}
-
-
-		// Clear interval when not looping and on last slide
-		if (loop === false && currentSlide == totalSlides) {
-			sliderPause();
-		}
-		else {
-			sliderPlay();
 		}
 	};
 

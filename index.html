@@ -3,16 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Slider</title>
-<link rel="stylesheet" href="//workspaces.i-aspect.local/richardvanaalst/_work/normalize.css" media="all">
-<link rel="stylesheet" href="css/style.css" media="all">
+<link rel="stylesheet" href="//workspaces.i-aspect.local/richardvanaalst/_work/normalize.css">
+<link rel="stylesheet" href="css/style.css">
 <script src="//code.jquery.com/jquery-1.7.2.min.js"></script>
 <script src="js/slider.js"></script>
 
 <!-- extra code -->
 <script>
+	loop = "continuous";
+	loop = "revert";
 	loop = "rewind";
-	loop = false;
 	loop = true;
+	loop = false;
 	debug = true;
 </script>
 <style>
@@ -29,31 +31,91 @@
 		<ul id="slides" class="slides">
 			<li id="slide1" class="slide slide1">
 				<a href="#" title="">
-					<h3>slide 1</h3>
+					<h3>slide1</h3>
 					<img src="img/slider.jpg" alt="">
 				</a>
 			</li>
 			<li id="slide2" class="slide slide2">
 				<a href="#" title="">
-					<h3>slide 2</h3>
+					<h3>slide2</h3>
 					<img src="img/slider.jpg" alt="">
 				</a>
 			</li>
 			<li id="slide3" class="slide slide3">
 				<a href="#" title="">
-					<h3>slide 3</h3>
+					<h3>slide3</h3>
 					<img src="img/slider.jpg" alt="">
 				</a>
 			</li>
 			<li id="slide4" class="slide slide4">
 				<a href="#" title="">
-					<h3>slide 4</h3>
+					<h3>slide4</h3>
 					<img src="img/slider.jpg" alt="">
 				</a>
 			</li>
 			<li id="slide5" class="slide slide5">
 				<a href="#" title="">
-					<h3>slide 5</h3>
+					<h3>slide5</h3>
+					<img src="img/slider.jpg" alt="">
+				</a>
+			</li>
+			<li id="slide6" class="slide slide6">
+				<a href="#" title="">
+					<h3>slide6</h3>
+					<img src="img/slider.jpg" alt="">
+				</a>
+			</li>
+			<li id="slide7" class="slide slide7">
+				<a href="#" title="">
+					<h3>slide7</h3>
+					<img src="img/slider.jpg" alt="">
+				</a>
+			</li>
+			<li id="slide8" class="slide slide8">
+				<a href="#" title="">
+					<h3>slide8</h3>
+					<img src="img/slider.jpg" alt="">
+				</a>
+			</li>
+			<li id="slide9" class="slide slide9">
+				<a href="#" title="">
+					<h3>slide9</h3>
+					<img src="img/slider.jpg" alt="">
+				</a>
+			</li>
+			<li id="slide10" class="slide slide10">
+				<a href="#" title="">
+					<h3>slide10</h3>
+					<img src="img/slider.jpg" alt="">
+				</a>
+			</li>
+			<li id="slide11" class="slide slide11">
+				<a href="#" title="">
+					<h3>slide11</h3>
+					<img src="img/slider.jpg" alt="">
+				</a>
+			</li>
+			<li id="slide12" class="slide slide12">
+				<a href="#" title="">
+					<h3>slide12</h3>
+					<img src="img/slider.jpg" alt="">
+				</a>
+			</li>
+			<li id="slide13" class="slide slide13">
+				<a href="#" title="">
+					<h3>slide13</h3>
+					<img src="img/slider.jpg" alt="">
+				</a>
+			</li>
+			<li id="slide14" class="slide slide14">
+				<a href="#" title="">
+					<h3>slide14</h3>
+					<img src="img/slider.jpg" alt="">
+				</a>
+			</li>
+			<li id="slide15" class="slide slide15">
+				<a href="#" title="">
+					<h3>slide15</h3>
 					<img src="img/slider.jpg" alt="">
 				</a>
 			</li>
@@ -65,19 +127,49 @@
 
 		<ul id="slider-nav-items" class="slider-nav-items">
 			<li>
-				<a id="slider-nav-item-1" class="slider-nav-item slider-nav-item-1" href="#slide1" title="">slide 1</a>
+				<a id="slider-nav-item-1" class="slider-nav-item slider-nav-item-1" href="#slide1" title="">slide1</a>
 			</li>
 			<li>
-				<a id="slider-nav-item-2" class="slider-nav-item slider-nav-item-2" href="#slide2" title="">slide 2</a>
+				<a id="slider-nav-item-2" class="slider-nav-item slider-nav-item-2" href="#slide2" title="">slide2</a>
 			</li>
 			<li>
-				<a id="slider-nav-item-3" class="slider-nav-item slider-nav-item-3" href="#slide3" title="">slide 3</a>
+				<a id="slider-nav-item-3" class="slider-nav-item slider-nav-item-3" href="#slide3" title="">slide3</a>
 			</li>
 			<li>
-				<a id="slider-nav-item-4" class="slider-nav-item slider-nav-item-4" href="#slide4" title="">slide 4</a>
+				<a id="slider-nav-item-4" class="slider-nav-item slider-nav-item-4" href="#slide4" title="">slide4</a>
 			</li>
 			<li>
-				<a id="slider-nav-item-5" class="slider-nav-item slider-nav-item-5" href="#slide5" title="">slide 5</a>
+				<a id="slider-nav-item-5" class="slider-nav-item slider-nav-item-5" href="#slide5" title="">slide5</a>
+			</li>
+			<li>
+				<a id="slider-nav-item-6" class="slider-nav-item slider-nav-item-6" href="#slide6" title="">slide6</a>
+			</li>
+			<li>
+				<a id="slider-nav-item-7" class="slider-nav-item slider-nav-item-7" href="#slide7" title="">slide7</a>
+			</li>
+			<li>
+				<a id="slider-nav-item-8" class="slider-nav-item slider-nav-item-8" href="#slide8" title="">slide8</a>
+			</li>
+			<li>
+				<a id="slider-nav-item-9" class="slider-nav-item slider-nav-item-9" href="#slide9" title="">slide9</a>
+			</li>
+			<li>
+				<a id="slider-nav-item-10" class="slider-nav-item slider-nav-item-10" href="#slide10" title="">slide10</a>
+			</li>
+			<li>
+				<a id="slider-nav-item-11" class="slider-nav-item slider-nav-item-11" href="#slide11" title="">slide11</a>
+			</li>
+			<li>
+				<a id="slider-nav-item-12" class="slider-nav-item slider-nav-item-12" href="#slide12" title="">slide12</a>
+			</li>
+			<li>
+				<a id="slider-nav-item-13" class="slider-nav-item slider-nav-item-13" href="#slide13" title="">slide13</a>
+			</li>
+			<li>
+				<a id="slider-nav-item-14" class="slider-nav-item slider-nav-item-14" href="#slide14" title="">slide14</a>
+			</li>
+			<li>
+				<a id="slider-nav-item-15" class="slider-nav-item slider-nav-item-15" href="#slide15" title="">slide15</a>
 			</li>
 		</ul>
 
