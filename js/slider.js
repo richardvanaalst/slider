@@ -134,6 +134,7 @@ $(document).ready(function() {
 		}
 
 
+// Set paging position
 			// Set paging position
 			currentPage = Math.floor((newSlide-1)/slidesPerPage);
 			navPos = -(currentPage*navHeight/totalPages);
@@ -188,10 +189,22 @@ $(document).ready(function() {
 
 		// Scroll to clicked page
 		if (click === true) {
+			var newPage = page.split("#page").pop();
+			// Set paging position
+			currentPage = newPage - 1;
+			navPos = -(currentPage*navHeight/totalPages);
+				console.log(currentPage, navPos)
+			$("#slider-nav-items").animate({"top": navPos}, {"queue": false});
+			// queue=false weg, check of 1 voor of na paginagrens zit
 		}
 		// Scroll by checking the current slide
 		else {
 		}
+
+		// Set css classes of navigation items
+		$(".slider-nav-pages-item").removeClass("active");
+		$("#slider-nav-pages-item-"+(newPage)).addClass("active");
+
 		return false;
 	};
 
@@ -248,6 +261,15 @@ $(document).ready(function() {
 			$(".slider-nav-item a").click(function() {
 				// scrollSlider($(this).attr("id"), true);
 				scrollSlider($(this).attr("href"), true);
+				return false;
+			});
+		}
+
+		// Add scroll to previous/next click event
+		if ($(".slider-nav-pages-item a")) {
+			$(".slider-nav-pages-item a").click(function() {
+				// scrollSlider($(this).attr("id"), true);
+				scrollSliderNav($(this).attr("href"), true);
 				return false;
 			});
 		}
