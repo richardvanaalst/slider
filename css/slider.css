@@ -1,0 +1,102 @@
+/** ** ** ** ** ** ** ** ** **
+ ** ** ** ** ** ** ** **
+ ** ** ** ** ** **
+ ** ** ** **
+ ** **
+ *	Slider base styling
+*/
+
+
+
+/** ** ** ** ** ** ** ** ** **
+ *	Slider container
+*/
+.slider {
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+
+
+/**
+ *	Slider content slides
+*/
+.slider-content {
+	width: 100%;
+	min-height: 1px;
+	position: relative;
+	overflow: hidden;
+}
+.slides {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.slide {
+	float: left;
+}
+
+
+
+/**
+ *	Slider navigation items
+*/
+.slider-navigation {
+}
+.slider-nav {
+}
+.slider-nav > ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.slider-nav-paging {
+}
+.slider-nav-pages {
+}
+.slider-nav-pages-item {
+}
+.slider-nav-pages-item.active {
+}
+.slider-nav-pages-item a {
+}
+.slider-nav-pages-item.active a {
+}
+
+.slider-nav-navigation {
+}
+.slider-nav-items {
+}
+.slider-nav-item {
+}
+.slider-nav-item.active {
+}
+.slider-nav-item a {
+}
+.slider-nav-item.active a {
+}
+
+
+
+/**
+ *	Slider functions
+*/
+.slider-functions {
+}
+.slider-functions-items {
+}
+
+.slider-playpause {
+}
+.slider-playpause.play {
+}
+.slider-playpause.pause {
+}
+
+.slider-prev {
+}
+.slider-next {
+}

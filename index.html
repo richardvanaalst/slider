@@ -3,23 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <title>Slider</title>
-<link rel="stylesheet" href="//workspaces.i-aspect.local/richardvanaalst/_work/normalize.css">
+<link rel="stylesheet" href="css/slider.css">
 <link rel="stylesheet" href="css/style.css">
 <script src="//code.jquery.com/jquery-1.7.2.min.js"></script>
-<script src="js/slider.js"></script>
+<script async src="js/slider.js"></script>
 
 <!-- extra code -->
+<style>
+	html { background: #ddd; }
+	h3 { position: absolute; }
+</style>
 <script>
+	// Slider settings
+	autoplay = true;
+	autoplay = false;
 	loop = "continuous";
 	loop = "revert";
 	loop = "rewind";
 	loop = true;
 	loop = false;
 	debug = true;
+	debug = false;
 </script>
-<style>
-	h3 { position: absolute; }
-</style>
 <!-- end extra code -->
 </head>
 
@@ -113,67 +118,76 @@
 					<img src="img/slider.jpg" alt="">
 				</a>
 			</li>
-			<li id="slide15" class="slide slide15">
-				<a href="#" title="">
-					<h3>slide15</h3>
-					<img src="img/slider.jpg" alt="">
-				</a>
-			</li>
 		</ul>
 	</div>
 
 
-	<div id="slider-nav" class="slider-nav">
+	<div id="slider-navigation" class="slider-navigation">
+		<div id="slider-nav-paging" class="slider-nav slider-nav-paging">
+			<ul id="slider-nav-pages" class="slider-nav-pages">
+				<li id="slider-nav-pages-item-1" class="slider-nav-pages-item slider-nav-pages-item-1">
+					<a href="#page1" title="">page1</a>
+				</li>
+				<li id="slider-nav-pages-item-2" class="slider-nav-pages-item slider-nav-pages-item-2">
+					<a href="#page2" title="">page2</a>
+				</li>
+				<li id="slider-nav-pages-item-3" class="slider-nav-pages-item slider-nav-pages-item-3">
+					<a href="#page3" title="">page3</a>
+				</li>
+			</ul>
+		</div>
 
-		<ul id="slider-nav-items" class="slider-nav-items">
-			<li>
-				<a id="slider-nav-item-1" class="slider-nav-item slider-nav-item-1" href="#slide1" title="">slide1</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-2" class="slider-nav-item slider-nav-item-2" href="#slide2" title="">slide2</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-3" class="slider-nav-item slider-nav-item-3" href="#slide3" title="">slide3</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-4" class="slider-nav-item slider-nav-item-4" href="#slide4" title="">slide4</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-5" class="slider-nav-item slider-nav-item-5" href="#slide5" title="">slide5</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-6" class="slider-nav-item slider-nav-item-6" href="#slide6" title="">slide6</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-7" class="slider-nav-item slider-nav-item-7" href="#slide7" title="">slide7</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-8" class="slider-nav-item slider-nav-item-8" href="#slide8" title="">slide8</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-9" class="slider-nav-item slider-nav-item-9" href="#slide9" title="">slide9</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-10" class="slider-nav-item slider-nav-item-10" href="#slide10" title="">slide10</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-11" class="slider-nav-item slider-nav-item-11" href="#slide11" title="">slide11</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-12" class="slider-nav-item slider-nav-item-12" href="#slide12" title="">slide12</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-13" class="slider-nav-item slider-nav-item-13" href="#slide13" title="">slide13</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-14" class="slider-nav-item slider-nav-item-14" href="#slide14" title="">slide14</a>
-			</li>
-			<li>
-				<a id="slider-nav-item-15" class="slider-nav-item slider-nav-item-15" href="#slide15" title="">slide15</a>
-			</li>
-		</ul>
+		<div id="slider-nav-navigation" class="slider-nav slider-nav-navigation">
+			<ul id="slider-nav-items" class="slider-nav-items">
+				<li id="slider-nav-item-1" class="slider-nav-item slider-nav-item-1">
+					<a href="#slide1" title="">slide1</a>
+				</li>
+				<li id="slider-nav-item-2" class="slider-nav-item slider-nav-item-2">
+					<a href="#slide2" title="">slide2</a>
+				</li>
+				<li id="slider-nav-item-3" class="slider-nav-item slider-nav-item-3">
+					<a href="#slide3" title="">slide3</a>
+				</li>
+				<li id="slider-nav-item-4" class="slider-nav-item slider-nav-item-4">
+					<a href="#slide4" title="">slide4</a>
+				</li>
+				<li id="slider-nav-item-5" class="slider-nav-item slider-nav-item-5">
+					<a href="#slide5" title="">slide5</a>
+				</li>
+				<li id="slider-nav-item-6" class="slider-nav-item slider-nav-item-6">
+					<a href="#slide6" title="">slide6</a>
+				</li>
+				<li id="slider-nav-item-7" class="slider-nav-item slider-nav-item-7">
+					<a href="#slide7" title="">slide7</a>
+				</li>
+				<li id="slider-nav-item-8" class="slider-nav-item slider-nav-item-8">
+					<a href="#slide8" title="">slide8</a>
+				</li>
+				<li id="slider-nav-item-9" class="slider-nav-item slider-nav-item-9">
+					<a href="#slide9" title="">slide9</a>
+				</li>
+				<li id="slider-nav-item-10" class="slider-nav-item slider-nav-item-10">
+					<a href="#slide10" title="">slide10</a>
+				</li>
+				<li id="slider-nav-item-11" class="slider-nav-item slider-nav-item-11">
+					<a href="#slide11" title="">slide11</a>
+				</li>
+				<li id="slider-nav-item-12" class="slider-nav-item slider-nav-item-12">
+					<a href="#slide12" title="">slide12</a>
+				</li>
+				<li id="slider-nav-item-13" class="slider-nav-item slider-nav-item-13">
+					<a href="#slide13" title="">slide13</a>
+				</li>
+				<li id="slider-nav-item-14" class="slider-nav-item slider-nav-item-14">
+					<a href="#slide14" title="">slide14</a>
+				</li>
+			</ul>
+		</div>
+	</div>
 
-		<ul id="slider-nav-functions" class="slider-nav-functions">
+
+	<div id="slider-functions" class="slider-nav slider-functions">
+		<ul id="slider-functions-items" class="slider-functions-items">
 			<li>
 				<a id="slider-prev" class="slider-prev" href="#prev" title="">previous</a>
 			</li>
@@ -184,7 +198,6 @@
 				<a id="slider-next" class="slider-next" href="#next" title="">next</a>
 			</li>
 		</ul>
-
 	</div>
 
 </div>

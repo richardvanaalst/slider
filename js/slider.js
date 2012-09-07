@@ -9,88 +9,20 @@ $(document).ready(function() {
 		showDuration = 2000,
 		sliderRunTimer = false,
 		isPlaying = false,
-		loop = (window.loop != undefined)? window.loop : true,
+
 		/* loop: "continuous", "revert", "rewind", true, false */
-		debug = (window.debug != undefined)? window.debug : false
+		autoplay = (window.autoplay != undefined)? window.autoplay : true,
+		loop = (window.loop != undefined)? window.loop : true,
+		debug = (window.debug != undefined)? window.debug : false,
+
+		/* When using paging */
+		navHeight = $("#slider-nav-items").outerHeight(),
+		slidesPerPage = 5,
+		totalPages = totalSlides/slidesPerPage,
+		currentPage = 0,
+		navPos = 0
 	];
-
-	(function sliderInit() {
-
-		// Set the necessary basic styles to the slider, if not present
-		if ($("#slider-content").css("position") != "relative") {
-			$("#slider-content").css({"position": "relative"});
-			// ADD: width: 100px; height: 100px; overflow: hidden;
-		}
-		if ($("#slides").css("position") != "absolute") {
-			$("#slides").css({"position": "absolute"});
-			// ADD: width: 300px; top: 0; left: 0;
-		}
-		$("#slides").css({"width": totalSlides*slideWidth+"px"});
-
-		// Add play-pause toggle event
-		if ($("#slider-playpause")) {
-			$("#slider-playpause").click(function() {
-				if (isPlaying === true) {
-					sliderPause();
-				}
-				else {
-					sliderPlay();
-				}
-				return false;
-			});
-		}
-
-		// Add scroll to previous/next click event
-		if ($("#slider-prev")) {
-			$("#slider-prev").click(function() {
-				scrollSlider("prev", true);
-				return false;
-			});
-		}
-		if ($("#slider-next")) {
-			$("#slider-next").click(function() {
-				scrollSlider("next", true);
-				return false;
-			});
-		}
-
-		// Add scroll to previous/next click event
-		if ($(".slider-nav-item")) {
-			$(".slider-nav-item").click(function() {
-				scrollSlider($(this).attr("id"), true);
-				return false;
-			});
-		}
-
-
-		/* TODO: doesnot work correctly
-		$("#slider-content").hover(
-			function() {
-				if (debug) console.log("#slider-content mouse over");
-				sliderPause();
-			},
-			function() {
-				if (debug) console.log("#slider-content mouse out");
-				sliderPlay();
-			}
-		);
-		*/
-
-		/* TODO: doesnot work this way
-		$(window).blur(function() {
-			if (debug) console.log("Window blur");
-			sliderPause();
-		});
-		$(window).focus(function() {
-			if (debug) console.log("Window focus");
-			sliderPlay();
-		});
-		*/
-
-		// Activate slider and go to first slide
-		scrollSlider(1, false);
-		$("#slider-playpause").click();
-	})();
+	console.log(Slider)
 
 
 	function sliderRun() {
@@ -122,8 +54,8 @@ $(document).ready(function() {
 		isPlaying = false;
 	};
 
-	// Clear interval when not looping and on last slide
 	function sliderCycle() {
+		// Clear interval when not looping and on last slide
 		if (isPlaying === false || (loop === false && currentSlide == totalSlides)) {
 			sliderPause();
 		}
@@ -136,16 +68,16 @@ $(document).ready(function() {
 	function scrollSlider(slide, click) {
 
 		// sliderRunReset();
-		var newSlide = slide,
-			posNew;
+		var newSlide = 0,
+			posNew = 0;
 
-		if (typeof newSlide != "number") {
-			switch (newSlide) {
+		if (typeof slide != "number") {
+			switch (slide) {
 
 				case "prev":
 					if (loop === false) {
 						// Stop at first slide
-						newSlide = Math.max(1, currentSlide - scrollIncrement);
+						newSlide = Math.max(1, currentSlide-scrollIncrement);
 						sliderRunReset();
 							if (debug) if (currentSlide == 1) console.log("Stop at first slide");
 					}
@@ -161,7 +93,7 @@ $(document).ready(function() {
 								if (debug) if (currentSlide == 1) console.log("Add last slide before first");
 						}*/
 						/* TEMP */
-						newSlide = (currentSlide - scrollIncrement < 1)? totalSlides : currentSlide - scrollIncrement;
+						newSlide = (currentSlide-scrollIncrement < 1)? totalSlides : currentSlide-scrollIncrement;
 							if (debug) if (currentSlide == 1) console.log("Loop back to last slide");
 					}
 					break;
@@ -169,7 +101,7 @@ $(document).ready(function() {
 				case "next":
 					if (loop === false) {
 						// Stop at last slide
-						newSlide = Math.min(totalSlides, (currentSlide + scrollIncrement));
+						newSlide = Math.min(totalSlides, (currentSlide+scrollIncrement));
 							if (debug) if (newSlide == totalSlides) console.log("Stop at last slide");
 					}
 					else {
@@ -184,21 +116,35 @@ $(document).ready(function() {
 								if (debug) if (newSlide == totalSlides) console.log("Loop back to first slide");
 						}*/
 						/* TEMP */
-						newSlide = (currentSlide + scrollIncrement > totalSlides)? 1 : currentSlide + scrollIncrement;
+						newSlide = (currentSlide+scrollIncrement > totalSlides)? 1 : currentSlide+scrollIncrement;
 							if (debug) if (newSlide == totalSlides) console.log("Loop back to first slide");
 					}
 					break;
 
 				default:
-					// Get ID nr of slide: "#slider-nav-item-1"
-					newSlide = newSlide.split("-").pop();
+					// Get ID nr of slide from a id: "#slider-nav-item-1"
+					// newSlide = newSlide.split("-").pop();
+					// Get ID nr of slide from a href: "#slide1"
+					newSlide = slide.split("#slide").pop();
 					break;
 			}
 		}
+		else {
+			newSlide = slide;
+		}
+
+
+			// Set paging position
+			currentPage = Math.floor((newSlide-1)/slidesPerPage);
+			navPos = -(currentPage*navHeight/totalPages);
+				console.log(newSlide, currentPage, navPos)
+			$("#slider-nav-items").animate({"top": navPos}, {"queue": false});
+			// queue=false weg, check of 1 voor of na paginagrens zit
+
 
 		// Set new (left) position
-		posNew = -(newSlide-1) * slideWidth;
-			if (debug) console.log("currentSlide (old): "+currentSlide+ ", newSlide: "+newSlide+ ", posNew: "+posNew);
+		posNew = -(newSlide-1)*slideWidth;
+			if (debug) console.log("currentSlide (old): "+currentSlide, ", newSlide: "+newSlide, ", posNew: "+posNew);
 
 
 		// Bounce effect at first/last slide when not looping
@@ -234,6 +180,108 @@ $(document).ready(function() {
 				sliderCycle();
 			});
 		}
+
 	};
+
+
+	function scrollSliderNav(page, click) {
+
+		// Scroll to clicked page
+		if (click === true) {
+		}
+		// Scroll by checking the current slide
+		else {
+		}
+		return false;
+	};
+
+
+	(function sliderInit() {
+		/* Check all
+		// Set the necessary basic styles to the slider, if not present
+		if ($("#slider-content").css("position") != "relative") {
+			$("#slider-content").css({"position": "relative"});
+			// ADD: width: 100px; height: 100px; overflow: hidden;
+		}
+		if ($("#slides").css("position") != "absolute") {
+			$("#slides").css({"position": "absolute"});
+			// ADD: width: 300px; top: 0; left: 0;
+		}
+		*/
+
+		// Set width of slides list ul#slides to width of total slides
+		$("#slides").css({"width": totalSlides*slideWidth+"px"});
+
+		// Clear float of every first navigation item per page
+		$(".slider-nav-item:nth-child("+slidesPerPage+"n+1)").css({"clear": "left"});
+
+
+		// Add play-pause toggle event
+		if ($("#slider-playpause")) {
+			$("#slider-playpause").click(function() {
+				if (isPlaying === true) {
+					sliderPause();
+				}
+				else {
+					sliderPlay();
+				}
+				return false;
+			});
+		}
+
+		// Add scroll to previous/next click event
+		if ($("#slider-prev")) {
+			$("#slider-prev").click(function() {
+				scrollSlider("prev", true);
+				return false;
+			});
+		}
+		if ($("#slider-next")) {
+			$("#slider-next").click(function() {
+				scrollSlider("next", true);
+				return false;
+			});
+		}
+
+		// Add scroll to previous/next click event
+		if ($(".slider-nav-item a")) {
+			$(".slider-nav-item a").click(function() {
+				// scrollSlider($(this).attr("id"), true);
+				scrollSlider($(this).attr("href"), true);
+				return false;
+			});
+		}
+
+
+		/* TODO: does not work correctly
+		$("#slider-content").hover(
+			function() {
+				if (debug) console.log("#slider-content mouse over");
+				sliderPause();
+			},
+			function() {
+				if (debug) console.log("#slider-content mouse out");
+				sliderPlay();
+			}
+		);
+		*/
+
+		/* TODO: doesnot work this way
+		$(window).blur(function() {
+			if (debug) console.log("Window blur");
+			sliderPause();
+		});
+		$(window).focus(function() {
+			if (debug) console.log("Window focus");
+			sliderPlay();
+		});
+		*/
+
+		// Activate slider and go to first slide
+		scrollSlider(1, false);
+		if (autoplay == true) {
+			$("#slider-playpause").click();
+		}
+	})();
 
 });
