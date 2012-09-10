@@ -18,11 +18,11 @@ $(document).ready(function() {
 		/* When using paging */
 		navHeight = $("#slider-nav-items").outerHeight(),
 		slidesPerPage = 5,
-		totalPages = totalSlides/slidesPerPage,
+		totalPages = Math.ceil(totalSlides / slidesPerPage),
 		currentPage = 0,
 		navPos = 0
 	];
-	console.log(Slider)
+		if (debug) console.log(Slider);
 
 
 	function sliderRun() {
@@ -75,49 +75,63 @@ $(document).ready(function() {
 			switch (slide) {
 
 				case "prev":
-					if (loop === false) {
+					switch (loop) {
 						// Stop at first slide
-						newSlide = Math.max(1, currentSlide-scrollIncrement);
-						sliderRunReset();
-							if (debug) if (currentSlide == 1) console.log("Stop at first slide");
-					}
-					else {
-						/*if (loop == "rewind" ) {
-							// Loop back to last slide
+						case false:
+							newSlide = Math.max(1, currentSlide - scrollIncrement);
+							sliderRunReset();
+								if (debug) if (currentSlide == 1) console.log("Stop at first slide");
+							break;
+
+						// Rewind to last slide
+						case true:
+						case "rewind":
+						default:
 							newSlide = (currentSlide - scrollIncrement < 1)? totalSlides : currentSlide - scrollIncrement;
-								if (debug) if (currentSlide == 1) console.log("Loop back to last slide");
-						}
-						else {
-							// Add last slide before first
-							newSlide = '';
+								if (debug) if (currentSlide == 1) console.log("Rewind to last slide");
+							break;
+
+						// Add last slide before first
+						case "continuous":
+							newSlide = 0;
 								if (debug) if (currentSlide == 1) console.log("Add last slide before first");
-						}*/
-						/* TEMP */
-						newSlide = (currentSlide-scrollIncrement < 1)? totalSlides : currentSlide-scrollIncrement;
-							if (debug) if (currentSlide == 1) console.log("Loop back to last slide");
+							break;
+
+						// Reverse direction from first to last slide and visa versa
+						case "reverse":
+							newSlide = 0;
+								if (debug) if (currentSlide == 1) console.log("Reverse direction");
+							break;
 					}
 					break;
 
 				case "next":
-					if (loop === false) {
+					switch (loop) {
 						// Stop at last slide
-						newSlide = Math.min(totalSlides, (currentSlide+scrollIncrement));
-							if (debug) if (newSlide == totalSlides) console.log("Stop at last slide");
-					}
-					else {
-						/*if (loop == "rewind" ) {
-							// Add first slide after last
+						case false:
+							newSlide = Math.min(totalSlides, (currentSlide + scrollIncrement));
+								if (debug) if (newSlide == totalSlides) console.log("Stop at last slide");
+							break;
+
+						// Rewind to first slide
+						case true:
+						case "rewind":
+						default:
 							newSlide = (currentSlide + scrollIncrement > totalSlides)? 1 : currentSlide + scrollIncrement;
+								if (debug) if (newSlide == totalSlides) console.log("Rewind to first slide");
+							break;
+
+						// Add first slide after last
+						case "continuous":
+							newSlide = 0;
 								if (debug) if (newSlide == totalSlides) console.log("Add first slide after last");
-						}
-						else {
-						// Loop back to first slide
-							newSlide = '';
-								if (debug) if (newSlide == totalSlides) console.log("Loop back to first slide");
-						}*/
-						/* TEMP */
-						newSlide = (currentSlide+scrollIncrement > totalSlides)? 1 : currentSlide+scrollIncrement;
-							if (debug) if (newSlide == totalSlides) console.log("Loop back to first slide");
+							break;
+
+						// Reverse direction from last to first slide and visa versa
+						case "reverse":
+							newSlide = 0;
+								if (debug) if (newSlide == totalSlides) console.log("Reverse direction");
+							break;
 					}
 					break;
 
@@ -134,17 +148,12 @@ $(document).ready(function() {
 		}
 
 
-// Set paging position
-			// Set paging position
-			currentPage = Math.floor((newSlide-1)/slidesPerPage);
-			navPos = -(currentPage*navHeight/totalPages);
-				console.log(newSlide, currentPage, navPos)
-			$("#slider-nav-items").animate({"top": navPos}, {"queue": false});
-			// queue=false weg, check of 1 voor of na paginagrens zit
+		// Set paging position
+		scrollSliderNav(newSlide, false);
 
 
 		// Set new (left) position
-		posNew = -(newSlide-1)*slideWidth;
+		posNew = -(newSlide-1) * slideWidth;
 			if (debug) console.log("currentSlide (old): "+currentSlide, ", newSlide: "+newSlide, ", posNew: "+posNew);
 
 
@@ -185,32 +194,34 @@ $(document).ready(function() {
 	};
 
 
-	function scrollSliderNav(page, click) {
+	function scrollSliderNav(input, click) {
+
+		var newPage = "";
 
 		// Scroll to clicked page
 		if (click === true) {
-			var newPage = page.split("#page").pop();
-			// Set paging position
-			currentPage = newPage - 1;
-			navPos = -(currentPage*navHeight/totalPages);
-				console.log(currentPage, navPos)
-			$("#slider-nav-items").animate({"top": navPos}, {"queue": false});
-			// queue=false weg, check of 1 voor of na paginagrens zit
+			newPage = input.split("#page").pop();
 		}
 		// Scroll by checking the current slide
 		else {
+			newPage = Math.floor((input-1) / slidesPerPage) + 1;
 		}
+
+		navPos = -((newPage-1) * navHeight / totalPages);
+		currentPage = newPage;
+			if (debug) console.log(currentPage, newPage, navPos)
+
+		$("#slider-nav-items").animate({"top": navPos}, {"queue": false});
+		// queue=false weg, check of 1 slide voor of na paginagrens zit
 
 		// Set css classes of navigation items
 		$(".slider-nav-pages-item").removeClass("active");
-		$("#slider-nav-pages-item-"+(newPage)).addClass("active");
-
-		return false;
+		$("#slider-nav-pages-item-"+newPage).addClass("active");
 	};
 
 
 	(function sliderInit() {
-		/* Check all
+		/* Check which ones are really necessary
 		// Set the necessary basic styles to the slider, if not present
 		if ($("#slider-content").css("position") != "relative") {
 			$("#slider-content").css({"position": "relative"});
@@ -299,10 +310,10 @@ $(document).ready(function() {
 		});
 		*/
 
-		// Activate slider and go to first slide
+		// Go to first slide and activate slider
 		scrollSlider(1, false);
 		if (autoplay == true) {
-			$("#slider-playpause").click();
+			sliderPlay();
 		}
 	})();
 
