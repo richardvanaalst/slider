@@ -1,7 +1,6 @@
 var Slider = new Object();
 Slider.var = {
 	};
-Slider.var.totalPages= Math.ceil(Slider.var.totalSlides / Slider.var.slidesPerPage);
 
 Slider.sliderRun = function() {
 		Slider.scrollSlider("next", false);
@@ -220,6 +219,8 @@ Slider.scrollSliderNav = function(input, click) {
     		currentPage: 0,
     		navPos: 0
     	};
+        
+Slider.var.totalPages= Math.ceil(Slider.var.totalSlides / Slider.var.slidesPerPage);
 		/* Check which ones are really necessary
 		// Set the necessary basic styles to the slider, if not present
 		if ($("#slider-content").css("position") != "relative") {
