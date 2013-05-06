@@ -1,6 +1,8 @@
 $(document).ready(function() {
-
-	var Slider = [
+    Slider.init();
+});
+var Slider = new Object();
+Slider.var = [
 		totalSlides = $(".slide").length,
 		slideWidth = $(".slide").outerWidth(),
 		currentSlide = 0,
@@ -22,21 +24,20 @@ $(document).ready(function() {
 		currentPage = 0,
 		navPos = 0
 	];
-		if (debug) console.log(Slider);
 
 
-	function sliderRun() {
+Slider.sliderRun = function() {
 		scrollSlider("next", false);
 	};
 
-	function sliderRunReset() {
+Slider.sliderRunReset = function() {
 		clearTimeout(sliderRunTimer);
 			if (debug) console.log("timeout cleared: "+sliderRunTimer);
 		sliderRunTimer = false;
 	};
 
 
-	function sliderPlay() {
+Slider.sliderPlay = function() {
 			if (debug) console.log("sliderPlay");
 		if (typeof sliderRunTimer == "number") {
 			sliderRunReset();
@@ -47,14 +48,14 @@ $(document).ready(function() {
 		isPlaying = true;
 	};
 
-	function sliderPause() {
+Slider.sliderPause = function() {
 			if (debug) console.log("sliderPause");
 		sliderRunReset();
 		$("#slider-playpause").removeClass("play").addClass("pause");
 		isPlaying = false;
 	};
 
-	function sliderCycle() {
+Slider.sliderCycle = function() {
 		// Clear interval when not looping and on last slide
 		if (isPlaying === false || (loop === false && currentSlide == totalSlides)) {
 			sliderPause();
@@ -65,7 +66,7 @@ $(document).ready(function() {
 	};
 
 
-	function scrollSlider(slide, click) {
+Slider.scrollSlider = function(slide, click) {
 
 		// sliderRunReset();
 		var newSlide = 0,
@@ -194,7 +195,7 @@ $(document).ready(function() {
 	};
 
 
-	function scrollSliderNav(input, click) {
+Slider.scrollSliderNav = function(input, click) {
 
 		var newPage = "";
 
@@ -220,7 +221,7 @@ $(document).ready(function() {
 	};
 
 
-	(function sliderInit() {
+	Slider.init=function() {
 		/* Check which ones are really necessary
 		// Set the necessary basic styles to the slider, if not present
 		if ($("#slider-content").css("position") != "relative") {
@@ -315,6 +316,6 @@ $(document).ready(function() {
 		if (autoplay == true) {
 			sliderPlay();
 		}
-	})();
+	};
 
-});
+
