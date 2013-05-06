@@ -20,11 +20,10 @@ Slider.var = {
 		/* When using paging */
 		navHeight: $("#slider-nav-items").outerHeight(),
 		slidesPerPage: 5,
-		totalPages: Math.ceil(Slider.var.totalSlides / Slider.var.slidesPerPage),
 		currentPage: 0,
 		navPos: 0
 	};
-
+Slider.var.totalPages= Math.ceil(Slider.var.totalSlides / Slider.var.slidesPerPage);
 
 Slider.sliderRun = function() {
 		Slider.scrollSlider("next", false);
@@ -32,7 +31,7 @@ Slider.sliderRun = function() {
 
 Slider.sliderRunReset = function() {
 		clearTimeout(Slider.var.sliderRunTimer);
-			if (debug) console.log("timeout cleared: "+Slider.var.sliderRunTimer);
+			if (Slider.var.debug) console.log("timeout cleared: "+Slider.var.sliderRunTimer);
 		Slider.var.sliderRunTimer = false;
 	};
 
@@ -187,7 +186,7 @@ Slider.scrollSlider = function(slide, click) {
 			// Animate and update current slide
 			currentSlide = parseInt(newSlide);
 				if (Slider.var.debug) console.log("currentSlide (new): "+currentSlide);
-			$("#slides").stop(true).animate({"left": posNew}, scrollSpeed, function() {
+			$("#slides").stop(true).animate({"left": posNew}, Slider.var.scrollSpeed, function() {
 				Slider.sliderCycle();
 			});
 		}
