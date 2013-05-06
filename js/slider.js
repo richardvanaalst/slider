@@ -1,27 +1,5 @@
-$(document).ready(function() {
-    Slider.init();
-});
 var Slider = new Object();
 Slider.var = {
-    	totalSlides: $(".slide").length,
-		slideWidth: $(".slide").outerWidth(),
-		currentSlide: 0,
-		scrollIncrement: 1,
-		scrollSpeed: 600,
-		showDuration: 2000,
-		sliderRunTimer: false,
-		isPlaying: false,
-
-		/* loop: "continuous", "revert", "rewind", true, false */
-		autoplay: (window.autoplay != undefined)? window.autoplay : true,
-		loop: (window.loop != undefined)? window.loop : true,
-		debug: (window.debug != undefined)? window.debug : false,
-
-		/* When using paging */
-		navHeight: $("#slider-nav-items").outerHeight(),
-		slidesPerPage: 5,
-		currentPage: 0,
-		navPos: 0
 	};
 Slider.var.totalPages= Math.ceil(Slider.var.totalSlides / Slider.var.slidesPerPage);
 
@@ -184,7 +162,7 @@ Slider.scrollSlider = function(slide, click) {
 			$("#slider-nav-item-"+(newSlide)).addClass("active");
 
 			// Animate and update current slide
-			currentSlide = parseInt(newSlide);
+			Slider.var.currentSlide = parseInt(newSlide);
 				if (Slider.var.debug) console.log("currentSlide (new): "+currentSlide);
 			$("#slides").stop(true).animate({"left": posNew}, Slider.var.scrollSpeed, function() {
 				Slider.sliderCycle();
@@ -221,6 +199,27 @@ Slider.scrollSliderNav = function(input, click) {
 
 
 	Slider.init=function() {
+        Slider.var = {
+            totalSlides: $(".slide").length,
+    		slideWidth: $(".slide").outerWidth(),
+    		currentSlide: 0,
+    		scrollIncrement: 1,
+    		scrollSpeed: 600,
+    		showDuration: 2000,
+    		sliderRunTimer: false,
+    		isPlaying: false,
+    
+    		/* loop: "continuous", "revert", "rewind", true, false */
+    		autoplay: (window.autoplay != undefined)? window.autoplay : true,
+    		loop: (window.loop != undefined)? window.loop : true,
+    		debug: (window.debug != undefined)? window.debug : false,
+    
+    		/* When using paging */
+    		navHeight: $("#slider-nav-items").outerHeight(),
+    		slidesPerPage: 5,
+    		currentPage: 0,
+    		navPos: 0
+    	};
 		/* Check which ones are really necessary
 		// Set the necessary basic styles to the slider, if not present
 		if ($("#slider-content").css("position") != "relative") {
@@ -317,4 +316,6 @@ Slider.scrollSliderNav = function(input, click) {
 		}
 	};
 
-
+$(document).ready(function() {
+    Slider.init();
+});
