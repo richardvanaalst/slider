@@ -2,42 +2,42 @@ var Slider = new Object();
 Slider.var = {
 	};
 
-Slider.sliderRun = function() {
+Slider.run = function() {
 		Slider.scrollSlider("next", false);
 	};
 
-Slider.sliderRunReset = function() {
-		clearTimeout(Slider.var.sliderRunTimer);
-			if (Slider.var.debug) console.log("timeout cleared: "+Slider.var.sliderRunTimer);
-		Slider.var.sliderRunTimer = false;
+Slider.runReset = function() {
+		clearTimeout(Slider.var.runTimer);
+			if (Slider.var.debug) console.log("timeout cleared: "+Slider.var.runTimer);
+		Slider.var.runTimer = false;
 	};
 
 
-Slider.sliderPlay = function() {
+Slider.play = function() {
 			if (Slider.var.debug) console.log("sliderPlay");
-		if (typeof Slider.var.sliderRunTimer == "number") {
-			Slider.sliderRunReset();
+		if (typeof Slider.var.runTimer == "number") {
+			Slider.runReset();
 		}
-		Slider.var.sliderRunTimer = setTimeout(Slider.sliderRun, Slider.var.showDuration);
-			if (Slider.var.debug) console.log("timeout set: "+Slider.var.sliderRunTimer);
+		Slider.var.runTimer = setTimeout(Slider.run, Slider.var.showDuration);
+			if (Slider.var.debug) console.log("timeout set: "+Slider.var.runTimer);
 		$("#slider-playpause").removeClass("pause").addClass("play");
 		Slider.var.isPlaying = true;
 	};
 
-Slider.sliderPause = function() {
+Slider.pause = function() {
 			if (Slider.var.debug) console.log("sliderPause");
-		Slider.sliderRunReset();
+		Slider.runReset();
 		$("#slider-playpause").removeClass("play").addClass("pause");
 		Slider.var.isPlaying = false;
 	};
 
-Slider.sliderCycle = function() {
+Slider.cycle = function() {
 		// Clear interval when not looping and on last slide
 		if (Slider.var.isPlaying === false || (Slider.var.loop === false && Slider.var.currentSlide == Slider.var.totalSlides)) {
-			Slider.sliderPause();
+			Slider.pause();
 		}
 		else {
-			Slider.sliderPlay();
+			Slider.play();
 		}
 	};
 
@@ -56,7 +56,7 @@ Slider.scrollSlider = function(slide, click) {
 						// Stop at first slide
 						case false:
 							newSlide = Math.max(1, Slider.var.currentSlide - Slider.var.scrollIncrement);
-							Slider.sliderRunReset();
+							Slider.runReset();
 								if (Slider.var.debug) if (Slider.var.currentSlide == 1) console.log("Stop at first slide");
 							break;
 
@@ -150,7 +150,7 @@ Slider.scrollSlider = function(slide, click) {
 			$("#slides").animate({"left": posNew}, 50, function() {
 				posNew += Slider.var.bounceWidth;
 				$("#slides").animate({"left": posNew}, 200, function() {
-					Slider.sliderCycle();
+					Slider.cycle();
 				});
 			});
 		}
@@ -164,7 +164,7 @@ Slider.scrollSlider = function(slide, click) {
 			Slider.var.currentSlide = parseInt(newSlide);
 				if (Slider.var.debug) console.log("currentSlide (new): "+Slider.var.currentSlide);
 			$("#slides").stop(true).animate({"left": posNew}, Slider.var.scrollSpeed, function() {
-				Slider.sliderCycle();
+				Slider.cycle();
 			});
 		}
 
@@ -205,7 +205,7 @@ Slider.scrollSliderNav = function(input, click) {
     		scrollIncrement: 1,
     		scrollSpeed: 600,
     		showDuration: 2000,
-    		sliderRunTimer: false,
+    		runTimer: false,
     		isPlaying: false,
     
     		/* loop: "continuous", "revert", "rewind", true, false */
@@ -244,10 +244,10 @@ Slider.var.totalPages= Math.ceil(Slider.var.totalSlides / Slider.var.slidesPerPa
 		if ($("#slider-playpause")) {
 			$("#slider-playpause").click(function() {
 				if (Slider.var.isPlaying === true) {
-					Slider.sliderPause();
+					Slider.pause();
 				}
 				else {
-					Slider.sliderPlay();
+					Slider.play();
 				}
 				return false;
 			});
@@ -313,7 +313,7 @@ Slider.var.totalPages= Math.ceil(Slider.var.totalSlides / Slider.var.slidesPerPa
 		// Go to first slide and activate slider
 		Slider.scrollSlider(1, false);
 		if (Slider.var.autoplay == true) {
-			Slider.sliderPlay();
+			Slider.play();
 		}
 	};
 
