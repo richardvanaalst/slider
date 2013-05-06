@@ -163,7 +163,7 @@ Slider.scrollSlider = function(slide, click) {
 
 			// Animate and update current slide
 			Slider.var.currentSlide = parseInt(newSlide);
-				if (Slider.var.debug) console.log("currentSlide (new): "+currentSlide);
+				if (Slider.var.debug) console.log("currentSlide (new): "+Slider.var.currentSlide);
 			$("#slides").stop(true).animate({"left": posNew}, Slider.var.scrollSpeed, function() {
 				Slider.sliderCycle();
 			});
@@ -185,11 +185,11 @@ Slider.scrollSliderNav = function(input, click) {
 			newPage = Math.floor((input-1) / Slider.var.slidesPerPage) + 1;
 		}
 
-		navPos = -((newPage-1) * Slider.var.navHeight / Slider.var.totalPages);
-		currentPage = newPage;
-			if (Slider.var.debug) console.log(currentPage, newPage, navPos)
+		Slider.var.navPos = -((newPage-1) * Slider.var.navHeight / Slider.var.totalPages);
+		Slider.var.currentPage = newPage;
+			if (Slider.var.debug) console.log(Slider.var.currentPage, newPage, Slider.var.navPos)
 
-		$("#slider-nav-items").animate({"top": navPos}, {"queue": false});
+		$("#slider-nav-items").animate({"top": Slider.var.navPos}, {"queue": false});
 		// queue=false weg, check of 1 slide voor of na paginagrens zit
 
 		// Set css classes of navigation items
