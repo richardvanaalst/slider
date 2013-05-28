@@ -1,71 +1,47 @@
-$(document).ready(function() {
+var Slider = new Object();
+Slider.var = {};
 
-	var Slider = [
-		totalSlides = $(".slide").length,
-		slideWidth = $(".slide").outerWidth(),
-		currentSlide = 0,
-		scrollIncrement = 1,
-		scrollSpeed = 600,
-		showDuration = 2000,
-		sliderRunTimer = false,
-		isPlaying = false,
-
-		/* loop: "continuous", "revert", "rewind", true, false */
-		autoplay = (window.autoplay != undefined)? window.autoplay : true,
-		loop = (window.loop != undefined)? window.loop : true,
-		debug = (window.debug != undefined)? window.debug : false,
-
-		/* When using paging */
-		navHeight = $("#slider-nav-items").outerHeight(),
-		slidesPerPage = 5,
-		totalPages = Math.ceil(totalSlides / slidesPerPage),
-		currentPage = 0,
-		navPos = 0
-	];
-		if (debug) console.log(Slider);
-
-
-	function sliderRun() {
-		scrollSlider("next", false);
+Slider.run = function() {
+		Slider.scrollSlider("next", false);
 	};
 
-	function sliderRunReset() {
-		clearTimeout(sliderRunTimer);
-			if (debug) console.log("timeout cleared: "+sliderRunTimer);
-		sliderRunTimer = false;
+Slider.runReset = function() {
+		clearTimeout(Slider.var.runTimer);
+			if (Slider.var.debug) console.log("timeout cleared: "+Slider.var.runTimer);
+		Slider.var.runTimer = false;
 	};
 
 
-	function sliderPlay() {
-			if (debug) console.log("sliderPlay");
-		if (typeof sliderRunTimer == "number") {
-			sliderRunReset();
+Slider.play = function() {
+			if (Slider.var.debug) console.log("sliderPlay");
+		if (typeof Slider.var.runTimer == "number") {
+			Slider.runReset();
 		}
-		sliderRunTimer = setTimeout(sliderRun, showDuration);
-			if (debug) console.log("timeout set: "+sliderRunTimer);
+		Slider.var.runTimer = setTimeout(Slider.run, Slider.var.showDuration);
+			if (Slider.var.debug) console.log("timeout set: "+Slider.var.runTimer);
 		$("#slider-playpause").removeClass("pause").addClass("play");
-		isPlaying = true;
+		Slider.var.isPlaying = true;
 	};
 
-	function sliderPause() {
-			if (debug) console.log("sliderPause");
-		sliderRunReset();
+Slider.pause = function() {
+			if (Slider.var.debug) console.log("sliderPause");
+		Slider.runReset();
 		$("#slider-playpause").removeClass("play").addClass("pause");
-		isPlaying = false;
+		Slider.var.isPlaying = false;
 	};
 
-	function sliderCycle() {
+Slider.cycle = function() {
 		// Clear interval when not looping and on last slide
-		if (isPlaying === false || (loop === false && currentSlide == totalSlides)) {
-			sliderPause();
+		if (Slider.var.isPlaying === false || (Slider.var.loop === false && Slider.var.currentSlide == Slider.var.totalSlides)) {
+			Slider.pause();
 		}
 		else {
-			sliderPlay();
+			Slider.play();
 		}
 	};
 
 
-	function scrollSlider(slide, click) {
+Slider.scrollSlider = function(slide, click) {
 
 		// sliderRunReset();
 		var newSlide = 0,
@@ -75,62 +51,62 @@ $(document).ready(function() {
 			switch (slide) {
 
 				case "prev":
-					switch (loop) {
+					switch (Slider.var.loop) {
 						// Stop at first slide
 						case false:
-							newSlide = Math.max(1, currentSlide - scrollIncrement);
-							sliderRunReset();
-								if (debug) if (currentSlide == 1) console.log("Stop at first slide");
+							newSlide = Math.max(1, Slider.var.currentSlide - Slider.var.scrollIncrement);
+							Slider.runReset();
+								if (Slider.var.debug) if (Slider.var.currentSlide == 1) console.log("Stop at first slide");
 							break;
 
 						// Rewind to last slide
 						case true:
 						case "rewind":
 						default:
-							newSlide = (currentSlide - scrollIncrement < 1)? totalSlides : currentSlide - scrollIncrement;
-								if (debug) if (currentSlide == 1) console.log("Rewind to last slide");
+							newSlide = (Slider.var.currentSlide - Slider.var.scrollIncrement < 1)? Slider.var.totalSlides : Slider.var.currentSlide - Slider.var.scrollIncrement;
+								if (Slider.var.debug) if (Slider.var.currentSlide == 1) console.log("Rewind to last slide");
 							break;
 
 						// Add last slide before first
 						case "continuous":
 							newSlide = 0;
-								if (debug) if (currentSlide == 1) console.log("Add last slide before first");
+								if (Slider.var.debug) if (Slider.var.currentSlide == 1) console.log("Add last slide before first");
 							break;
 
 						// Reverse direction from first to last slide and visa versa
 						case "reverse":
 							newSlide = 0;
-								if (debug) if (currentSlide == 1) console.log("Reverse direction");
+								if (Slider.var.debug) if (Slider.var.currentSlide == 1) console.log("Reverse direction");
 							break;
 					}
 					break;
 
 				case "next":
-					switch (loop) {
+					switch (Slider.var.loop) {
 						// Stop at last slide
 						case false:
-							newSlide = Math.min(totalSlides, (currentSlide + scrollIncrement));
-								if (debug) if (newSlide == totalSlides) console.log("Stop at last slide");
+							newSlide = Math.min(Slider.var.totalSlides, (Slider.var.currentSlide + Slider.var.scrollIncrement));
+								if (Slider.var.debug) if (newSlide == Slider.var.totalSlides) console.log("Stop at last slide");
 							break;
 
 						// Rewind to first slide
 						case true:
 						case "rewind":
 						default:
-							newSlide = (currentSlide + scrollIncrement > totalSlides)? 1 : currentSlide + scrollIncrement;
-								if (debug) if (newSlide == totalSlides) console.log("Rewind to first slide");
+							newSlide = (Slider.var.currentSlide + Slider.var.scrollIncrement > Slider.var.totalSlides)? 1 : Slider.var.currentSlide + Slider.var.scrollIncrement;
+								if (Slider.var.debug) if (newSlide == Slider.var.totalSlides) console.log("Rewind to first slide");
 							break;
 
 						// Add first slide after last
 						case "continuous":
 							newSlide = 0;
-								if (debug) if (newSlide == totalSlides) console.log("Add first slide after last");
+								if (Slider.var.debug) if (newSlide == Slider.var.totalSlides) console.log("Add first slide after last");
 							break;
 
 						// Reverse direction from last to first slide and visa versa
 						case "reverse":
 							newSlide = 0;
-								if (debug) if (newSlide == totalSlides) console.log("Reverse direction");
+								if (Slider.var.debug) if (newSlide == Slider.var.totalSlides) console.log("Reverse direction");
 							break;
 					}
 					break;
@@ -149,31 +125,31 @@ $(document).ready(function() {
 
 
 		// Set paging position
-		scrollSliderNav(newSlide, false);
+		Slider.scrollSliderNav(newSlide, false);
 
 
 		// Set new (left) position
-		posNew = -(newSlide-1) * slideWidth;
-			if (debug) console.log("currentSlide (old): "+currentSlide, ", newSlide: "+newSlide, ", posNew: "+posNew);
+		posNew = -(newSlide-1) * Slider.var.slideWidth;
+			if (Slider.var.debug) console.log("currentSlide (old): "+Slider.var.currentSlide, ", newSlide: "+newSlide, ", posNew: "+posNew);
 
 
 		// Bounce effect at first/last slide when not looping
-		if (loop === false && click === true && (
-				(slide == "prev" && currentSlide === 1) ||
-				(slide == "next" && currentSlide === totalSlides)
+		if (Slider.var.loop === false && click === true && (
+				(slide == "prev" && Slider.var.currentSlide === 1) ||
+				(slide == "next" && Slider.var.currentSlide === Slider.var.totalSlides)
 			) ) {
-			if (slide == "prev" && currentSlide === 1) {
-				bounceWidth = -8;
+			if (slide == "prev" && Slider.var.currentSlide === 1) {
+				Slider.var.bounceWidth = -8;
 			}
-			if (slide == "next" && currentSlide === totalSlides) {
-				bounceWidth = 8;
+			if (slide == "next" && Slider.var.currentSlide === Slider.var.totalSlides) {
+				Slider.var.bounceWidth = 8;
 			}
 
-			posNew -= bounceWidth;
+			posNew -= Slider.var.bounceWidth;
 			$("#slides").animate({"left": posNew}, 50, function() {
-				posNew += bounceWidth;
+				posNew += Slider.var.bounceWidth;
 				$("#slides").animate({"left": posNew}, 200, function() {
-					sliderCycle();
+					Slider.cycle();
 				});
 			});
 		}
@@ -184,17 +160,17 @@ $(document).ready(function() {
 			$("#slider-nav-item-"+(newSlide)).addClass("active");
 
 			// Animate and update current slide
-			currentSlide = parseInt(newSlide);
-				if (debug) console.log("currentSlide (new): "+currentSlide);
-			$("#slides").stop(true).animate({"left": posNew}, scrollSpeed, function() {
-				sliderCycle();
+			Slider.var.currentSlide = parseInt(newSlide);
+				if (Slider.var.debug) console.log("currentSlide (new): "+Slider.var.currentSlide);
+			$("#slides").stop(true).animate({"left": posNew}, Slider.var.scrollSpeed, function() {
+				Slider.cycle();
 			});
 		}
 
 	};
 
 
-	function scrollSliderNav(input, click) {
+Slider.scrollSliderNav = function(input, click) {
 
 		var newPage = "";
 
@@ -204,14 +180,14 @@ $(document).ready(function() {
 		}
 		// Scroll by checking the current slide
 		else {
-			newPage = Math.floor((input-1) / slidesPerPage) + 1;
+			newPage = Math.floor((input-1) / Slider.var.slidesPerPage) + 1;
 		}
 
-		navPos = -((newPage-1) * navHeight / totalPages);
-		currentPage = newPage;
-			if (debug) console.log(currentPage, newPage, navPos)
+		Slider.var.navPos = -((newPage-1) * Slider.var.navHeight / Slider.var.totalPages);
+		Slider.var.currentPage = newPage;
+			if (Slider.var.debug) console.log(Slider.var.currentPage, newPage, Slider.var.navPos)
 
-		$("#slider-nav-items").animate({"top": navPos}, {"queue": false});
+		$("#slider-nav-items").animate({"top": Slider.var.navPos}, {"queue": false});
 		// queue=false weg, check of 1 slide voor of na paginagrens zit
 
 		// Set css classes of navigation items
@@ -220,7 +196,30 @@ $(document).ready(function() {
 	};
 
 
-	(function sliderInit() {
+	Slider.init=function() {
+        Slider.var = {
+            totalSlides: $(".slide").length,
+    		slideWidth: $(".slide").outerWidth(),
+    		currentSlide: 0,
+    		scrollIncrement: 1,
+    		scrollSpeed: 600,
+    		showDuration: 2000,
+    		runTimer: false,
+    		isPlaying: false,
+    
+    		/* loop: "continuous", "revert", "rewind", true, false */
+    		autoplay: (window.autoplay != undefined)? window.autoplay : true,
+    		loop: (window.loop != undefined)? window.loop : true,
+    		debug: (window.debug != undefined)? window.debug : false,
+    
+    		/* When using paging */
+    		navHeight: $("#slider-nav-items").outerHeight(),
+    		slidesPerPage: 5,
+    		currentPage: 0,
+    		navPos: 0
+    	};
+        
+Slider.var.totalPages= Math.ceil(Slider.var.totalSlides / Slider.var.slidesPerPage);
 		/* Check which ones are really necessary
 		// Set the necessary basic styles to the slider, if not present
 		if ($("#slider-content").css("position") != "relative") {
@@ -234,20 +233,20 @@ $(document).ready(function() {
 		*/
 
 		// Set width of slides list ul#slides to width of total slides
-		$("#slides").css({"width": totalSlides*slideWidth+"px"});
+		$("#slides").css({"width": Slider.var.totalSlides*Slider.var.slideWidth+"px"});
 
 		// Clear float of every first navigation item per page
-		$(".slider-nav-item:nth-child("+slidesPerPage+"n+1)").css({"clear": "left"});
+		$(".slider-nav-item:nth-child("+Slider.var.slidesPerPage+"n+1)").css({"clear": "left"});
 
 
 		// Add play-pause toggle event
 		if ($("#slider-playpause")) {
 			$("#slider-playpause").click(function() {
-				if (isPlaying === true) {
-					sliderPause();
+				if (Slider.var.isPlaying === true) {
+					Slider.pause();
 				}
 				else {
-					sliderPlay();
+					Slider.play();
 				}
 				return false;
 			});
@@ -256,13 +255,13 @@ $(document).ready(function() {
 		// Add scroll to previous/next click event
 		if ($("#slider-prev")) {
 			$("#slider-prev").click(function() {
-				scrollSlider("prev", true);
+				Slider.scrollSlider("prev", true);
 				return false;
 			});
 		}
 		if ($("#slider-next")) {
 			$("#slider-next").click(function() {
-				scrollSlider("next", true);
+				Slider.scrollSlider("next", true);
 				return false;
 			});
 		}
@@ -271,7 +270,7 @@ $(document).ready(function() {
 		if ($(".slider-nav-item a")) {
 			$(".slider-nav-item a").click(function() {
 				// scrollSlider($(this).attr("id"), true);
-				scrollSlider($(this).attr("href"), true);
+				Slider.scrollSlider($(this).attr("href"), true);
 				return false;
 			});
 		}
@@ -280,7 +279,7 @@ $(document).ready(function() {
 		if ($(".slider-nav-pages-item a")) {
 			$(".slider-nav-pages-item a").click(function() {
 				// scrollSlider($(this).attr("id"), true);
-				scrollSliderNav($(this).attr("href"), true);
+				Slider.scrollSliderNav($(this).attr("href"), true);
 				return false;
 			});
 		}
@@ -311,10 +310,12 @@ $(document).ready(function() {
 		*/
 
 		// Go to first slide and activate slider
-		scrollSlider(1, false);
-		if (autoplay == true) {
-			sliderPlay();
+		Slider.scrollSlider(1, false);
+		if (Slider.var.autoplay == true) {
+			Slider.play();
 		}
-	})();
+	};
 
+$(document).ready(function() {
+    Slider.init();
 });
