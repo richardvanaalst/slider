@@ -1,6 +1,5 @@
 var Slider = new Object();
-Slider.var = {
-	};
+Slider.var = {};
 
 Slider.run = function() {
 		Slider.scrollSlider("next", false);
