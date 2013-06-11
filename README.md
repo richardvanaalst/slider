@@ -1,7 +1,7 @@
 slider
 ======
 
-A slider for me getting to know JavaScript/jQuery.
+A simple JS slider using jQuery.
 
 //////////////////////////////////////////////////////
 
